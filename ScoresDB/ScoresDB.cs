@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ScoresDB
 {
@@ -18,6 +19,15 @@ namespace ScoresDB
                     Beatmaps[replay.BeatmapMd5] = new List<Replay>();
 
                 Beatmaps[replay.BeatmapMd5].Add(replay);
+            }
+
+            foreach (var key in Beatmaps.Keys)
+            {
+                var scoresSorted = Beatmaps[key].Where(r => !r.IsScoreV2).OrderByDescending(r => r.Score);
+                var scoreV2ScoresSorted = Beatmaps[key].Where(r => r.IsScoreV2)
+                    .OrderByDescending(r => r.Score);
+
+                Beatmaps[key] = scoresSorted.Concat(scoreV2ScoresSorted).ToList();
             }
 
             return this;

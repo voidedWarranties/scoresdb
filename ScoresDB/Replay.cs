@@ -44,6 +44,8 @@ namespace ScoresDB
 
         public double? TpInfo { get; private set; }
 
+        public bool IsScoreV2 => Mods.HasFlag(Mods.ScoreV2);
+
         public void ReadFromReader(OsuFileReader reader, bool parseReplay = false)
         {
             GameMode = (GameMode) reader.ReadByte();
